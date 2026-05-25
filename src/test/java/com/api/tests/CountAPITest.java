@@ -1,18 +1,12 @@
 package com.api.tests;
-
 import static org.hamcrest.Matchers.*;
 import org.testng.annotations.Test;
-
 import static com.api.constant.Role.*;
 import static com.api.utils.AuthTokenProvider.*;
 import static com.api.utils.ConfigManager.*;
-
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
-
 import static io.restassured.RestAssured.*;
-
 public class CountAPITest {
-
 	@Test
 	public void verifyCountAPIResponse() {
 		given()
@@ -38,7 +32,7 @@ public class CountAPITest {
 		
 	}
 	
-	//Negative scenarios 
+	//Negative scenarios
 	@Test
 	public void countAPITest_MissingAuthToken() {
 	    given()
