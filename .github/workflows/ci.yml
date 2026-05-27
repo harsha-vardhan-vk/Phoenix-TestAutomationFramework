@@ -38,8 +38,8 @@ jobs:
         cache: maven
         
     - name: Execute Test Automation Framework
-      run: mvn clean test -DsuiteXmlFile="${{ github.event.inputs.suiteXmlFile }}" -Denv="${{ github.event.inputs.env }}"
-
+      run: mvn clean test -DsuiteXmlFile="${{ inputs.suiteXmlFile || 'testng.xml' }}" -Denv="${{ inputs.env || 'qa' }}"
+    
     - name: Upload a Build Artifact
       if: always()
       uses: actions/upload-artifact@v7.0.1
