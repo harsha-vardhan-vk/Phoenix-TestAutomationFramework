@@ -24,7 +24,7 @@ on:
        default: testng.xml
        required: true
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
