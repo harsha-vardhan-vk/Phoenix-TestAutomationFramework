@@ -21,7 +21,7 @@ jobs:
         cache: maven
         
     - name: Execute Test Automation Framework
-      run: mvn clean test -DsuiteXmlFile=testing.xml -Denv=qa
+      run: mvn clean test -DsuiteXmlFile=testng.xml -Denv=qa
 
     - name: Upload a Build Artifact
       if: always()
