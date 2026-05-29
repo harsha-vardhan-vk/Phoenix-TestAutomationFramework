@@ -38,7 +38,7 @@ public class MasterAPITest {
 		
 	}
 	
-	//Nagative test
+	//Negative test
 	@Test
 	public void InvalidTokenMasterAPITest() {
 	given()
