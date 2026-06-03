@@ -5,23 +5,23 @@ import static io.restassured.RestAssured.given;
 
 import org.testng.annotations.Test;
 
-import com.api.utils.SpecUtil;
+import static com.api.utils.SpecUtil.*;
 
-import io.restassured.module.jsv.JsonSchemaValidator;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 
 public class UserDetailsAPITest {
 
-	@Test
+	@Test(description = "Verify if the UserDetails API response is shown correctly", groups = {"api", "smoke", "regression"})
 	public void userDetailsAPITest() {
 
 		given()
-			.spec(SpecUtil.requestSpecWithAuth(FD))
+			.spec(requestSpecWithAuth(FD))
 		.when()
 			.get("/userdetails")
 		.then()
-			.spec(SpecUtil.responseSpec_JSON(200))
+			.spec(responseSpec_JSON(200))
 			.and()
-			.body(JsonSchemaValidator.matchesJsonSchemaInClasspath(
+			.body(matchesJsonSchemaInClasspath(
 				"response-schema/userDetailsResponseSchema.json"
 			));
 	}
