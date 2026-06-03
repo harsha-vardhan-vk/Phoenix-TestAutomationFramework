@@ -37,14 +37,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
+    - name: Default values for execution
+      id: default
+      run: |
+        # Added the $ before GITHUB_OUTPUT and removed potential trailing spaces
+        echo "suiteXmlFile=${{ github.event.inputs.suiteXmlFile || 'testng.xml' }}" >> $GITHUB_OUTPUT
+        echo "env=${{ github.event.inputs.env || 'qa' }}" >> $GITHUB_OUTPUT
         
     - name: Execute Test Automation Framework
-      # Use inputs if available (manual trigger), otherwise fallback to defaults (cron/push)
-      run: |
-        mvn clean test \
-        -DsuiteXmlFile="${{ github.event.inputs.suiteXmlFile || 'testng.xml' }}" \
-        -Denv="${{ github.event.inputs.env || 'qa' }}"
-    
+      # Now these outputs will actually contain values
+      run: mvn clean test -DsuiteXmlFile="${{ steps.default.outputs.suiteXmlFile }}" -Denv="${{ steps.default.outputs.env }}"    
     - name: Upload a Build Artifact
       if: always()
       uses: actions/upload-artifact@v4  # Fixed version from v7.0.1 to v4
