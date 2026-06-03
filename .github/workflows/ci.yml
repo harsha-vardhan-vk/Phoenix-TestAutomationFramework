@@ -12,25 +12,25 @@ on:
   workflow_dispatch:
     inputs:
       env:
-       description: "Environment"
-       type: choice
-       options: [qa,uat,dev]
-       default: qa
-       required: true
-       
+        description: "Environment"
+        type: choice
+        options: [qa, uat, dev]
+        default: qa
+        required: true
       suiteXmlFile:
-       description: "TestNG Xml File"
-       type: choice
-       options: [testng.xml,smoke.xml,regression.xml]
-       default: testng.xml
-       required: true
+        description: "TestNG Xml File"
+        type: choice
+        options: [testng.xml, smoke.xml, regression.xml]
+        default: testng.xml
+        required: true
+
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -38,20 +38,20 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Default valuses for Execution
+    - name: Default values for execution
       id: default
       run: |
-            echo "suiteXmlFile=${{ github.event.inputs.suiteXmlFile || 'testng.xml' }}" >> $GITHUB_OUTPUT
+            echo "suiteXmlFile=${{ github.event.inputs.suiteXmlFile || 'testng.xml'}}" >> GITHUB_OUTPUT
             echo "env=${{ github.event.inputs.env || 'qa' }}" >> $GITHUB_OUTPUT
-    
+        
     - name: Execute Test Automation Framework
-      run: mvn clean test -DsuiteXmlFile="${{ steps.default.outputs.suiteXmlFile }}" -Denv="${{ steps.default.outputs }}"
+      # Use inputs if available (manual trigger), otherwise fallback to defaults (cron/push)
+      run: mvn clean test -DsuiteXmlFile="${{ steps.default.outputs.suiteXmlFile }}" -Denv="${{ steps.default.outputs.env }}"
     
     - name: Upload a Build Artifact
       if: always()
-      uses: actions/upload-artifact@v7.0.1
+      uses: actions/upload-artifact@v4  # Fixed version from v7.0.1 to v4
       with:
-        name: SureFire Report
+        name: SureFire-Report
         path: target/surefire-reports/
         retention-days: 10
- 
