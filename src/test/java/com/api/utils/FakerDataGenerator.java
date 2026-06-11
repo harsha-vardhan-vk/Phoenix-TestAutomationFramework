@@ -1,46 +1,53 @@
-package com.api.tests;
-
-import static io.restassured.RestAssured.given;
-
-import static org.hamcrest.Matchers.*;
+package com.api.utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.api.constant.Model;
-import com.api.constant.OEM;
-import com.api.constant.Platform;
-import com.api.constant.Problem;
-import com.api.constant.Product;
-import com.api.constant.Role;
-import com.api.constant.ServiceLocation;
-import com.api.constant.Warranty_Status;
 import com.api.request.model.CreateJobPayload;
 import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
-import com.api.utils.DateTimeUtil;
 import com.github.javafaker.Faker;
 
-import static com.api.utils.DateTimeUtil.*;
-import static com.api.utils.SpecUtil.*;
+public class FakerDataGenerator {
 
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
-
-public class CreateJobAPITest2 {
+	//Util Class
+	private static Faker faker = new Faker (new Locale("eng-IND"));
 	private final static String COUNTRY = "India";
-	private CreateJobPayload createJobPayload;
+	private static Random RANDOM = new Random();
+	private final static int MST_SERVICELOCATION_ID =0;
+	private final static int MST_PLATFORM_ID =2;
+	private final static int MST_WARRANTY_STATUS_ID =1;
+	private final static int MST_OEM_ID =1;
+	private final static int MST_PRODUCT_ID = 1;
+	private final static int MST_MODEL_ID = 1;
+	private FakerDataGenerator() {
+		
+	}
 	
-	@BeforeMethod(description = "Creating createJob API request payload")
-	public void setup() {
 	
-Faker faker = new Faker(new Locale("en-IND"));
+	public static Iterator<CreateJobPayload> generateFakeCreateJobData(int count) {
+	List<CreateJobPayload> payloadList = new ArrayList<CreateJobPayload>();	
+	for (int i=1; i<=count; i++) {
+	Customer customer = generateFakeCustomerData();
+	CustomerAddress customerAddress= generateFakeCustomerAddressData();
+	CustomerProduct customerProduct = generateFakeCustomerProduct();
+	List<Problems> problemsList= generateFakeProblemsList();
+	CreateJobPayload payload = new CreateJobPayload(MST_SERVICELOCATION_ID, MST_PLATFORM_ID, MST_WARRANTY_STATUS_ID, MST_OEM_ID, customer, customerAddress, customerProduct, problemsList);
+	payloadList.add(payload);
+	}
+	
+	return payloadList.iterator();
+	
+}
+
+
+
+	private static Customer generateFakeCustomerData() {
 		
 		String fname = faker.name().firstName();
 		String lname = faker.name().lastName();
@@ -55,7 +62,11 @@ Faker faker = new Faker(new Locale("en-IND"));
 				alternateMobileNumber, 
 				customerEmailAddress, 
 				AlternateCustomerEmailAddress);
-		
+	
+	return customer;
+	}
+	
+	private static CustomerAddress generateFakeCustomerAddressData() {
 		
 		String flatNumber = faker.numerify("###");
 		String apartmentName= faker.address().streetName();
@@ -74,8 +85,11 @@ Faker faker = new Faker(new Locale("en-IND"));
 				COUNTRY, // here country object is hardcoded cause due it incorrect name provided by faker 
 				state);
 		
-		System.out.println(customerAddress);
+		return customerAddress;
 		
+	}
+	
+	private static CustomerProduct generateFakeCustomerProduct() {
 		String dop = DateTimeUtil.getTimeWithDaysAgo(10);
 		String imeiSerialNumber = faker.numerify("##############"); //14 digits
 		String popUrl = faker.internet().url();
@@ -83,44 +97,23 @@ Faker faker = new Faker(new Locale("en-IND"));
 				imeiSerialNumber, 
 				imeiSerialNumber, 
 				imeiSerialNumber, 
-				popUrl, 1, 1);
+				popUrl, MST_PRODUCT_ID, MST_MODEL_ID);
 		
-		System.out.println(customerProduct);
-		
-		
-		
-		String fakeRemark = faker.lorem().sentence(10);
-		Random random = new Random();
-		int problemId = random.nextInt(26)+1;
+		return customerProduct;
+	}
+	
+
+	private static List<Problems> generateFakeProblemsList() {
+		String fakeRemark = faker.lorem().sentence(5);
+		int problemId = RANDOM.nextInt(27)+1;
 		Problems problems = new Problems(problemId, fakeRemark);
 		System.out.println(problems);
 		
 		List<Problems> problemList= new ArrayList<Problems>();
 		problemList.add(problems);
 		
-		createJobPayload = new CreateJobPayload(0, 2, 1, 1, 
-				customer, 
-				customerAddress, 
-				customerProduct, 
-				problemList);
-		
+		return problemList;
+	}
 	
 	}
 	
-	@Test(description = "Verifying if create job API is able to create Inwarranty job", groups = {"api", "regression", "smoke"})
-	public void createJobAPITest() {
-			
-		given()
-		.spec(requestSpecWithAuth(Role.FD, createJobPayload))
-		.when()
-		.post("/job/create")
-		.then()
-	    .spec(responseSpec_OK())
-	    .body(matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
-	    .body("message", equalTo("Job created successfully. "))
-	    .body("data.mst_service_location_id", equalTo(1))
-	    .body("data.job_number", startsWith("JOB_"));
-		
-		
-	}
-}
