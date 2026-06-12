@@ -16,7 +16,7 @@ public class CreateJobAPIFakeDataDriven {
 	
 	
 	
-	@Test(description = "Verifying if create job API is able to create Inwarranty job", groups = {"api", "regression", "datadriven"},
+	@Test(description = "Verifying if create job API is able to create Inwarranty job", groups = {"api", "regression", "datadriven", "faker"},
 	dataProviderClass = com.dataproviders.DataProviderUtils.class,
 	dataProvider = "CreateJobAPIFakerDataProvider"
 			
