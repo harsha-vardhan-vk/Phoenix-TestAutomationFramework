@@ -1,4 +1,4 @@
-package com.api.tests.datadriven;
+package com.api.tests;
 
 import static com.api.utils.SpecUtil.requestSpecWithAuth;
 import static com.api.utils.SpecUtil.responseSpec_OK;
@@ -7,23 +7,33 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
 
+import java.util.Iterator;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.api.constant.Role;
 import com.api.request.model.CreateJobPayload;
+import com.api.utils.FakerDataGenerator;
 
-public class CreateJobAPITestDataDrivenTest {
+public class CreateJobAPITestwithFakeData {
+	private CreateJobPayload createJobPayload;
+
+	@BeforeMethod(description = "Creating createJob API request payload")
+	public void setup() {
+	    Iterator<CreateJobPayload> iterator = 
+	        FakerDataGenerator.generateFakeCreateJobData(1);
+	    
+	    if (iterator.hasNext()) {
+	        createJobPayload = iterator.next();
+	    }
+	}	
 	
 	
+		
+	@Test(description = "Verifying if create job API is able to create Inwarranty job", groups = {"api", "regression", "smoke"})
 	
-	@Test(description = "Verifying if create job API is able to create Inwarranty job", groups = {"api", "regression", "datadriven", "csv"},
-	dataProviderClass = com.dataproviders.DataProviderUtils.class,
-	dataProvider = "CreateJobAPIDataProvider"
-			
-			
-			
-			)
-	public void createJobAPITest(CreateJobPayload createJobPayload) {
+	public void createJobAPITest() {
 			
 		given()
 		.spec(requestSpecWithAuth(Role.FD, createJobPayload))
