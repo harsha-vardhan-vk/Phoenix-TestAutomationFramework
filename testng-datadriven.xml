@@ -4,9 +4,10 @@
 
 	<test name="Inwarranty Flow - Data Driven Tests">
 		<classes>
-			<class name="com.api.tests.datadriven.LoginAPITestDataDrivenTest" />
-			<class name="com.api.tests.datadriven.CreateJobAPITestDataDrivenTest" />
+			<class name="com.api.tests.datadriven.LoginAPIDataDrivenTest" />
+			<class name="com.api.tests.datadriven.CreateJobAPIDataDrivenTest" />
 			<class name="com.api.tests.datadriven.CreateJobAPIFakeDataDriven" />
+			<class name="com.api.tests.datadriven.LoginAPIJSONDataDrivenTest" />
 		</classes>
 	</test>
 </suite>
