@@ -56,4 +56,10 @@ public class DataProviderUtils {
     	
     }
     
+    @DataProvider(name = "CreateJobAPIJSONDataProvider", parallel = true)
+    public static Iterator<CreateJobPayload> CreateJobAPIJSONDataProvider(){
+		return JSONReaderUtil.LoadJSON("testData/CreateJobAPIData.json", CreateJobPayload[].class);
+    	
+    }
+    
 }
