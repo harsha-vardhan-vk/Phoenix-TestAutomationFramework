@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import com.dataproviders.api.bean.UserBean;
 
 
-public class LoginAPITestDataDrivenTest {
+public class LoginAPIDataDrivenTest {
 	
 @Test (description = "Verifying if login API is working for FD user", 
 			groups = {"api", "regression", "datadriven"}, 
