@@ -10,7 +10,7 @@ import java.util.List;
 import com.database.DatabaseManagerForHikariCP;
 import com.dataproviders.api.bean.CreateJobBean;
 
-public class CreateJobPayloadDao {
+public class CreateJobPayloadDataDao {
 
 	private static final String SQL_QUERY = """
 			SELECT
@@ -59,6 +59,9 @@ public class CreateJobPayloadDao {
 
 						""";
 
+	private CreateJobPayloadDataDao() {
+		
+	}
 	public static List<CreateJobBean> getCreateJobPayLoadData() {
 		// I need the connection --- Databasemanager
 		Connection conn = null;
