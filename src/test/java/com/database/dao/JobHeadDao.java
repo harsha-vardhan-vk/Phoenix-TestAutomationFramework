@@ -10,36 +10,33 @@ import com.database.model.JobHeadModel;
 
 public class JobHeadDao {
 
-    private static final String JOB_HEAD_QUERY = """
-            SELECT mst_oem_id,
-            mst_service_location_id,
-            mst_warrenty_status_id,
-            mst_platform_id
-            FROM tr_job WHERE id = ?
-            """;
+	private static final String JOB_HEAD_QUERY = """
+			SELECT * FROM tr_job_head tjh  WHERE tr_customer_id=?
+			""";
 
-    private JobHeadDao() {
-    }
+	private JobHeadDao() {
+	}
 
-    public static JobHeadModel getDataFromJobHead(int jobId) {
-        JobHeadModel jobHeadModel = null;
-        try {
-            Connection conn = DatabaseManagerForHikariCP.getConnection();
-            PreparedStatement ps = conn.prepareStatement(JOB_HEAD_QUERY);
-            ps.setInt(1, jobId);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                jobHeadModel = new JobHeadModel(
-                        rs.getInt("mst_oem_id"),
-                        rs.getInt("mst_service_location_id"),
-                        rs.getInt("mst_warrenty_status_id"),
-                        rs.getInt("mst_platform_id")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return jobHeadModel;
-    }
+	public static JobHeadModel getDataFromJobHead(int tr_customer_id) {
+		JobHeadModel jobHeadModel = null;
+		try {
+			Connection conn = DatabaseManagerForHikariCP.getConnection();
+			PreparedStatement ps = conn.prepareStatement(JOB_HEAD_QUERY);
+			ps.setInt(1, tr_customer_id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				jobHeadModel = new JobHeadModel(rs.getInt("id"), 
+						rs.getString("job_number"), 
+						rs.getInt("tr_customer_id"),
+						rs.getInt("tr_customer_product_id"),
+						rs.getInt("mst_service_location_id"), 
+						rs.getInt("mst_platform_id"), 
+						rs.getInt("mst_warrenty_status_id"),  
+						rs.getInt("mst_oem_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return jobHeadModel;
+	}
 }

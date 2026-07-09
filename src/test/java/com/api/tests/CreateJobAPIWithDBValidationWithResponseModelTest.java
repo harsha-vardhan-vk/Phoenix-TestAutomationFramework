@@ -120,9 +120,10 @@ public class CreateJobAPIWithDBValidationWithResponseModelTest {
 		
 
 		JobHeadModel jobHeadDataFromDB = JobHeadDao.getDataFromJobHead(customerId);
-		Assert.assertEquals(jobHeadDataFromDB.getMst_Oem_id(), createJobPayload.mst_oem_id());
+
+		Assert.assertEquals(jobHeadDataFromDB.getMst_oem_id(), createJobPayload.mst_oem_id());
 		Assert.assertEquals(jobHeadDataFromDB.getMst_service_location_id(), createJobPayload.mst_service_location_id());
-		Assert.assertEquals(jobHeadDataFromDB.getMst_warranty_status_id(), createJobPayload.mst_warrenty_status_id());
+		Assert.assertEquals(jobHeadDataFromDB.getMst_warrenty_status_id(), createJobPayload.mst_warrenty_status_id());
 		Assert.assertEquals(jobHeadDataFromDB.getMst_platform_id(), createJobPayload.mst_platform_id());
 		
 		int tr_job_head_id = createJobResponseModel.getData().getId();

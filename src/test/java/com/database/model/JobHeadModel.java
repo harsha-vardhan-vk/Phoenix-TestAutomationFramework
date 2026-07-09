@@ -8,8 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class JobHeadModel {
-    private int mst_Oem_id;
-    private int mst_service_location_id;
-    private int mst_warranty_status_id;
-    private int mst_platform_id;
+    
+	private int id;
+	private String job_number;
+	private int tr_customer_id;
+	private int tr_customer_product_id;
+	private int mst_service_location_id;
+	private int mst_platform_id;
+	private int mst_warrenty_status_id;
+	private int mst_oem_id;
+	
 }
