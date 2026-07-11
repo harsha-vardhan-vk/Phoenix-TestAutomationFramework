@@ -2,16 +2,19 @@
 
 <suite name="Phoenix API Test Suite" verbose="1">
 
-	<test name="Inwarranty Flow - Data Driven Tests">
-		<classes>
-			<class name="com.api.tests.datadriven.LoginAPIDataDrivenTest" />
-			<class name="com.api.tests.datadriven.CreateJobAPIDataDrivenTest" />
-			<class name="com.api.tests.datadriven.CreateJobAPIFakeDataDriven" />
-			<class name="com.api.tests.datadriven.LoginAPIJSONDataDrivenTest" />
-			<class name="com.api.tests.datadriven.CreateJobAPIJSONDataDrivenTest" />
-			<class name="com.api.tests.datadriven.LoginAPIExcelDataDrivenTest" />
-			<class name="com.api.tests.datadriven.CreateJobAPIExcelDataDrivenTest" />
-			<class name="com.api.tests.datadriven.CreateJobAPIDBDataDrivenTest" />
-		</classes>
-	</test>
+    <test name="Inwarranty Flow - Data Driven Tests">
+        <classes>
+            <!-- Login API Data-Driven Tests -->
+            <class name="com.api.tests.datadriven.LoginAPIDataDrivenTest"/>
+            <class name="com.api.tests.datadriven.LoginAPIJSONDataDrivenTest"/>
+            <class name="com.api.tests.datadriven.LoginAPIExcelDataDrivenTest"/>
+            
+            <!-- Create Job API Data-Driven Tests -->
+            <class name="com.api.tests.datadriven.CreateJobAPIDataDrivenTest"/>
+            <class name="com.api.tests.datadriven.CreateJobAPIFakeDataDriven"/>
+            <class name="com.api.tests.CreateJobAPIJSONDataDrivenTest"/>  <!-- Different package! -->
+            <class name="com.api.tests.datadriven.CreateJobAPIExcelDataDrivenTest"/>
+            <class name="com.api.tests.datadriven.CreateJobAPIDBDataDrivenTest"/>
+        </classes>
+    </test>
 </suite>
