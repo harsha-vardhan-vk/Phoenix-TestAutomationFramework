@@ -11,12 +11,13 @@ public class AuthService {
 
 	// Service class purpose is going to hole the APIs that belongs to Auth
 	
-	private static final String LOGIN_ENDPOINT = "login";
+	private static final String LOGIN_ENDPOINT = "/login";
 	
-	public Response login(UserCredentials userCredentials) {
+	public Response login(Object userCredentials) {
 
 		Response response = given()
         .spec(requestSpec(userCredentials))
+        .header("Dummy", "123")
     .when()
         .post(LOGIN_ENDPOINT); 
 	    
