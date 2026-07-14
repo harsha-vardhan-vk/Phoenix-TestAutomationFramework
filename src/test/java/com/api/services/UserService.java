@@ -1,6 +1,5 @@
 package com.api.services;
 
-import static com.api.constant.Role.FD;
 import static com.api.utils.SpecUtil.requestSpecWithAuth;
 import static io.restassured.RestAssured.given;
 
