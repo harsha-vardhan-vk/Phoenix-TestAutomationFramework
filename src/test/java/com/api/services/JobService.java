@@ -22,6 +22,7 @@ public class JobService {
 		.post(CREATE_JOB_ENDPOINT);
 	}
 	
+	
 	public Response search(Role role, Object payload) {
 		return
 				given().spec(SpecUtil.requestSpecWithAuth(role))
