@@ -1,23 +1,37 @@
 package com.api.tests;
 
-import static org.hamcrest.Matchers.*;
+import static com.api.constant.Role.FD;
+import static com.api.utils.SpecUtil.requestSpec;
+import static com.api.utils.SpecUtil.responseSpec_OK;
+import static com.api.utils.SpecUtil.responseSpec_TEXT;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.notNullValue;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.api.utils.SpecUtil.*;
+import com.api.services.MasterService;
 
 import io.restassured.module.jsv.JsonSchemaValidator;
 
-import static com.api.constant.Role.*;
-import static io.restassured.RestAssured.*;
-
 public class MasterAPITest {
+	
+	private MasterService masterService;
+	
+	@BeforeMethod (description = "Instanciating the Master Service Object")
+	public void setup() {
+		masterService = new MasterService();
+		
+	}
 
 	@Test(description = "Verifying if master API is giving resposne", groups = {"api", "regression", "smoke"})
 	public void masterAPITest() {
-		given()
-		.spec(requestSpecWithAuth(FD))
-		.when()
-		.post("master") // default content-type application/url-formencoded
+		
+		masterService.master(FD)
 		.then()
 		.spec(responseSpec_OK())
 		.body("message", equalTo("Success"))

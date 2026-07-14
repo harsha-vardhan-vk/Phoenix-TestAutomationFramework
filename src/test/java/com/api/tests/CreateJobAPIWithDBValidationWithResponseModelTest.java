@@ -29,6 +29,7 @@ import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
 import com.api.response.model.CreateJobResponseModel;
+import com.api.services.JobService;
 import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
 import com.database.dao.CustomerProductDao;
@@ -40,16 +41,15 @@ import com.database.model.CustomerProductDBModel;
 import com.database.model.JobHeadModel;
 import com.database.model.MapJobProblemModel;
 
-import io.restassured.response.Response;
-
 public class CreateJobAPIWithDBValidationWithResponseModelTest {
 
 	private CreateJobPayload createJobPayload;
 	private Customer customer;
 	private CustomerAddress customerAddress;
 	private CustomerProduct customerProduct;
+	private JobService jobService;
 
-	@BeforeMethod(description = "Creating createJob API request payload")
+	@BeforeMethod(description = "Creating createJob API request payload and instantiating the JobService")
 	public void setup() {
 		customer = new Customer("Harsha", "vardhana", "9980071086", "", "harsha.vardhan@gmail.com", "");
 		customerAddress = new CustomerAddress("D 185", "SLV Nilaya", "Vaddarahalli", "Kylancha", "Ramanagara", "562159",
@@ -64,16 +64,14 @@ public class CreateJobAPIWithDBValidationWithResponseModelTest {
 		createJobPayload = new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(),
 				Platform.FRONT_DESK.getCode(), Warranty_Status.IN_WARRANTY.getCode(), OEM.GOOGLE.getCode(), customer,
 				customerAddress, customerProduct, problemList);
+		jobService = new JobService();
 	}
 
 	@Test(description = "Verifying if create job API is able to create Inwarranty job", groups = { "api", "regression",
 			"smoke" })
 	public void createJobAPITest() {
 
-		CreateJobResponseModel createJobResponseModel = given()
-				.spec(requestSpecWithAuth(Role.FD, createJobPayload))
-				.when()
-				.post("/job/create")
+		CreateJobResponseModel createJobResponseModel = jobService.createJob(Role.FD, createJobPayload)
 				.then()
 				.spec(responseSpec_OK())
 				.body(matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
