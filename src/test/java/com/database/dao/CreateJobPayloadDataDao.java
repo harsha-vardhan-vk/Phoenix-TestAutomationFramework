@@ -7,10 +7,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.database.DatabaseManagerForHikariCP;
 import com.dataproviders.api.bean.CreateJobBean;
 
 public class CreateJobPayloadDataDao {
+	
+	private static final Logger LOGGER = LogManager.getLogger(CreateJobPayloadDataDao.class);
 
 	private static final String SQL_QUERY = """
 			SELECT
@@ -70,8 +75,11 @@ public class CreateJobPayloadDataDao {
 		List<CreateJobBean> beanList = new ArrayList<CreateJobBean>();
 
 		try {
+			LOGGER.info("Getting the connection from the Database Manager");
 			conn = DatabaseManagerForHikariCP.getConnection();
 			statement = conn.createStatement(); // We need the Statement
+			LOGGER.info("Executing the SQL Query {}", SQL_QUERY);
+			
 			resultSet = statement.executeQuery(SQL_QUERY);
 			while (resultSet.next()) {
 				CreateJobBean bean = new CreateJobBean();
@@ -105,6 +113,7 @@ public class CreateJobPayloadDataDao {
 				beanList.add(bean);
 			}
 		} catch (SQLException e) {
+			LOGGER.error("Cannot covert the result set to the bean", e);
 			e.printStackTrace();
 		}
 		for (CreateJobBean b : beanList) {

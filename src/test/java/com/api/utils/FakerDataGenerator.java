@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.api.request.model.CreateJobPayload;
 import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
@@ -30,11 +33,27 @@ public class FakerDataGenerator {
     private static final int[] validProblemId = {
         1,2,3,4,5,6,7,8,9,10,11,12,15,17,19,20,22,24,26,27,28,29
     };
+    
+    private static final Logger LOGGER = LogManager.getLogger(FakerDataGenerator.class);
 
-    private FakerDataGenerator() {}
+    private FakerDataGenerator() {
+    	
+    }
+    public static CreateJobPayload generateFakeCreateJobData() {
+    
+    LOGGER.info("Generating the fake payload for Create job");
+    Customer customer = generateFakeCustomerData();
+    CustomerAddress customerAddress = generateFakeCustomerAddressData();
+    CustomerProduct customerProduct = generateFakeCustomerProduct();
+    List<Problems> problemsList = generateFakeProblemsList();
+    CreateJobPayload payload = new CreateJobPayload(MST_SERVICELOCATION_ID, MST_PLATFORM_ID,
+    MST_WARRANTY_STATUS_ID, MST_OEM_ID, customer, customerAddress, customerProduct, problemsList);
+    return payload;
+    }
 
     public static Iterator<CreateJobPayload> generateFakeCreateJobData(int count) {
-        List<CreateJobPayload> payloadList = new ArrayList<>();
+        LOGGER.info("Generating the fake {} payload for Create job", count);
+    	List<CreateJobPayload> payloadList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             Customer customer = generateFakeCustomerData();
             CustomerAddress customerAddress = generateFakeCustomerAddressData();
