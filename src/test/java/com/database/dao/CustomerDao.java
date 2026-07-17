@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.database.DatabaseManagerForHikariCP;
 import com.database.model.CustomerDBModel;
 
 public class CustomerDao {
 
+	private static final Logger LOGGER = LogManager.getLogger(CustomerDao.class);
     private static final String CUSTOMER_DETAIL_QUERY = """
             SELECT * FROM tr_customer WHERE id = ?
             """;
@@ -20,9 +24,11 @@ public class CustomerDao {
     public static CustomerDBModel getCustomerInfo(int customerId) {
         CustomerDBModel customerDBModel = null;
         try {
+        	LOGGER.info("Getting the connection from the Database Manager");
             Connection conn = DatabaseManagerForHikariCP.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(CUSTOMER_DETAIL_QUERY);
             preparedStatement.setInt(1, customerId);
+            LOGGER.info("Executing the SQL Query", CUSTOMER_DETAIL_QUERY);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -38,7 +44,7 @@ public class CustomerDao {
                 );
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+        	LOGGER.error("Cannot Convert the resultSet to the CustomerDBModel been", e);
         }
         return customerDBModel;
     }
