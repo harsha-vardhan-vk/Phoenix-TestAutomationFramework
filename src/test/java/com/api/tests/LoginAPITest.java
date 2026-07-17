@@ -10,8 +10,7 @@ import com.api.request.model.UserCredentials;
 import com.api.services.AuthService;
 
 import static com.api.utils.SpecUtil.*;
-
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 
 public class LoginAPITest {
@@ -40,4 +39,3 @@ private AuthService authService;
 
 	
 }
-

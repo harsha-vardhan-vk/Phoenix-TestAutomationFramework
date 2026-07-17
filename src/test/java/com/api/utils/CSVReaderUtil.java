@@ -5,20 +5,23 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class CSVReaderUtil {
+	private static final Logger LOGGER = LogManager.getLogger(CSVReaderUtil.class);
 	
 	private CSVReaderUtil() {
 		
 	}
 
-// Job: Help me read the CSV file and Map it a Bean
 	
 public static <T> Iterator<T> loadCSV(String pathOfCSVFile, Class<T> bean) {
-		
+		LOGGER.info("Loading the CSV file from the path {}", pathOfCSVFile);
 		InputStream is=Thread.currentThread()
 				.getContextClassLoader()
 				.getResourceAsStream(pathOfCSVFile);
@@ -26,8 +29,7 @@ public static <T> Iterator<T> loadCSV(String pathOfCSVFile, Class<T> bean) {
 		CSVReader csvReader = new CSVReader(isr);  // CSVReader Constructor
 		
 		
-		//Write the code to Map the CSV to POJO 
-		
+		LOGGER.info("Converting the CSV to the Bean Class {}", bean);
 		CsvToBean<T> csvToBean = new CsvToBeanBuilder(csvReader)
 				.withType(bean)
 				.withIgnoreEmptyLine(true)
