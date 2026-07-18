@@ -12,6 +12,7 @@ import static com.api.utils.ConfigManager.*;
 import org.hamcrest.Matchers;
 
 import com.api.constant.Role;
+import com.api.filters.SensitiveDataFilter;
 import com.api.request.model.UserCredentials;
 
 public class SpecUtil { // Method overloading happening
@@ -37,6 +38,7 @@ public class SpecUtil { // Method overloading happening
 				.setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON)
 				.setBody(payload)
+				.addFilter(new SensitiveDataFilter())
 				.log(LogDetail.URI)
 				.log(LogDetail.METHOD)
 				.log(LogDetail.HEADERS)
