@@ -25,7 +25,6 @@ public class AuthService {
 		LOGGER.info("Making logging request for the payload{}", ((UserBean) userCredentials)
 				.getUsername());
 				Response response = given()
-						.filter(new SensitiveDataFilter())
 						.spec(requestSpec(userCredentials))
 						.header("Dummy", "123")
 						.when()
