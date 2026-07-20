@@ -12,6 +12,7 @@ import static com.api.utils.ConfigManager.*;
 import org.hamcrest.Matchers;
 
 import com.api.constant.Role;
+import com.api.filters.SensitiveDataFilter;
 import com.api.request.model.UserCredentials;
 
 public class SpecUtil { // Method overloading happening
@@ -22,10 +23,7 @@ public class SpecUtil { // Method overloading happening
 				.setBaseUri(getProperty("BASE_URI"))
 				.setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON)
-				.log(LogDetail.URI)
-				.log(LogDetail.METHOD)
-				.log(LogDetail.HEADERS)
-				.log(LogDetail.BODY)
+				.addFilter(new SensitiveDataFilter())
 				.build();
 		
 	return requestSpecification;
@@ -37,10 +35,7 @@ public class SpecUtil { // Method overloading happening
 				.setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON)
 				.setBody(payload)
-				.log(LogDetail.URI)
-				.log(LogDetail.METHOD)
-				.log(LogDetail.HEADERS)
-				.log(LogDetail.BODY)
+				.addFilter(new SensitiveDataFilter())
 				.build();
 		
 	return requestSpecification;
@@ -52,10 +47,7 @@ public class SpecUtil { // Method overloading happening
 				.setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON)
 				.addHeader("Authorization", AuthTokenProvider.getToken(role))
-				.log(LogDetail.URI)
-				.log(LogDetail.METHOD)
-				.log(LogDetail.HEADERS)
-				.log(LogDetail.BODY)
+				.addFilter(new SensitiveDataFilter())
 				.build();
 		
 	return requestSpecification;
@@ -68,11 +60,7 @@ public class SpecUtil { // Method overloading happening
 				.setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON)
 				.addHeader("Authorization", AuthTokenProvider.getToken(role))
-				.setBody(Payload)
-				.log(LogDetail.URI)
-				.log(LogDetail.METHOD)
-				.log(LogDetail.HEADERS)
-				.log(LogDetail.BODY)
+				.addFilter(new SensitiveDataFilter())
 				.build();
 		
 	return requestSpecification;
@@ -84,7 +72,6 @@ public class SpecUtil { // Method overloading happening
 		.expectContentType(ContentType.JSON)
 		.expectStatusCode(200)
 		.expectResponseTime(Matchers.lessThan(1000L))
-		.log(LogDetail.ALL)
 		.build();
 		
 		return responseSpecification;
@@ -95,7 +82,6 @@ public class SpecUtil { // Method overloading happening
 		.expectContentType(ContentType.JSON)
 		.expectStatusCode(statusCode)
 		.expectResponseTime(Matchers.lessThan(1000L))
-		.log(LogDetail.ALL)
 		.build();
 		
 		return responseSpecification;
@@ -105,7 +91,6 @@ public class SpecUtil { // Method overloading happening
 		ResponseSpecification responseSpecification = new ResponseSpecBuilder()
 		.expectStatusCode(statusCode)
 		.expectResponseTime(Matchers.lessThan(1000L))
-		.log(LogDetail.ALL)
 		.build();
 		
 		return responseSpecification;

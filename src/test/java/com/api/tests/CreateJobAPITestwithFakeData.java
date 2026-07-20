@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.startsWith;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.api.constant.Role;
@@ -18,7 +19,7 @@ import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
 import com.database.model.CustomerAddressDBModel;
 import com.database.model.CustomerDBModel;
-
+@Listeners(com.listners.APITestListener.class)
 public class CreateJobAPITestwithFakeData {
 
     private CreateJobPayload createJobPayload;
