@@ -1,34 +1,19 @@
 package com.api.tests.datadriven;
 
-import static com.api.utils.DateTimeUtil.getTimeWithDaysAgo;
-import static com.api.utils.SpecUtil.requestSpecWithAuth;
 import static com.api.utils.SpecUtil.responseSpec_OK;
-import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import com.api.constant.Model;
-import com.api.constant.OEM;
-import com.api.constant.Platform;
-import com.api.constant.Problem;
-import com.api.constant.Product;
 import com.api.constant.Role;
-import com.api.constant.ServiceLocation;
-import com.api.constant.Warranty_Status;
 import com.api.request.model.CreateJobPayload;
-import com.api.request.model.Customer;
-import com.api.request.model.CustomerAddress;
-import com.api.request.model.CustomerProduct;
-import com.api.request.model.Problems;
 import com.api.services.JobService;
 
+@Listeners(com.listners.APITestListener.class)
 public class CreateJobAPIDBDataDrivenTest {
 	
 	private JobService jobService; 

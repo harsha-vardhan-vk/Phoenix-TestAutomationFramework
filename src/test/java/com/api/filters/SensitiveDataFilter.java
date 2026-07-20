@@ -24,12 +24,11 @@ public class SensitiveDataFilter implements Filter {
 		LOGGER.info("*************** REQUEST DETAILS ***************");
 		LOGGER.info("BASE URI: {}", requestSpec.getURI());
 		LOGGER.info("HTTP METHOD: {}", requestSpec.getMethod());
-		//Header for the Request Section
 		redactHeader(requestSpec);
 		
 		
 		redactPayload(requestSpec);
-		Response response = ctx.next(requestSpec, responseSpec); // make the request!!
+		Response response = ctx.next(requestSpec, responseSpec); 
 		LOGGER.info("*************** RESPONSE DETAILS ***************");
 		LOGGER.info("STATUS: {}", response.getStatusLine());
 		LOGGER.info("RESPONSE TIME ms: {}", response.timeIn(TimeUnit.MILLISECONDS));
@@ -58,13 +57,12 @@ public class SensitiveDataFilter implements Filter {
 		LOGGER.info("RESPONSE BODY : \n {}", responseBody);
 	}
 
-	//Create a method which is going to REDACT / Hide the password from the Request Payload
-	
+		
 	public void redactPayload(FilterableRequestSpecification requestSpec) {
 		if(requestSpec.getBody()!=null) {
 		String requestPayload = requestSpec.getBody().toString();
 		
-		//Hide the payload 
+		
 		requestPayload = requestPayload.replaceAll("\"password\"\s*:\s*\"[^\"]+\"", "\"password\": \"[REDACTED]\"");
 		LOGGER.info("REQUEST PAYLOAD : \n {}", requestPayload);
 	}
