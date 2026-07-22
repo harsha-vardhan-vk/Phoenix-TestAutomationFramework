@@ -16,6 +16,8 @@ import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
 import com.github.javafaker.Faker;
 
+import io.qameta.allure.Step;
+
 public class FakerDataGenerator {
 
     // Util Class
@@ -39,6 +41,8 @@ public class FakerDataGenerator {
     private FakerDataGenerator() {
     	
     }
+    
+    @Step("Generating Fake Create Job data")
     public static CreateJobPayload generateFakeCreateJobData() {
     
     LOGGER.info("Generating the fake payload for Create job");
@@ -51,6 +55,7 @@ public class FakerDataGenerator {
     return payload;
     }
 
+    @Step("Generating multiple Fake Create Job data with the count")
     public static Iterator<CreateJobPayload> generateFakeCreateJobData(int count) {
         LOGGER.info("Generating the fake {} payload for Create job", count);
     	List<CreateJobPayload> payloadList = new ArrayList<>();
@@ -75,6 +80,7 @@ public class FakerDataGenerator {
         return payloadList.iterator();
     }
 
+    @Step("Generating multiple Fake Customer data")
     private static Customer generateFakeCustomerData() {
         return new Customer(
             faker.name().firstName(),
@@ -85,7 +91,7 @@ public class FakerDataGenerator {
             faker.internet().emailAddress()
         );
     }
-
+    @Step("Generating Fake customer address info")
     private static CustomerAddress generateFakeCustomerAddressData() {
         return new CustomerAddress(
             faker.numerify("###"),
@@ -99,6 +105,7 @@ public class FakerDataGenerator {
         );
     }
 
+    @Step("Generating Fake customer product info")
     private static CustomerProduct generateFakeCustomerProduct() {
         String dop = DateTimeUtil.getTimeWithDaysAgo(10);
         String imei = faker.numerify("###############"); // 15 digits
@@ -115,6 +122,7 @@ public class FakerDataGenerator {
         );
     }
 
+    @Step("Generating Fake Problem List for Create Job payload")
     private static List<Problems> generateFakeProblemsList() {
         int count = RANDOM.nextInt(3) + 1;
         List<Problems> problemList = new ArrayList<>();

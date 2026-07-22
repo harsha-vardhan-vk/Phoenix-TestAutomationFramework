@@ -13,6 +13,8 @@ import com.api.utils.VaultDBConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.qameta.allure.Step;
+
 public class DatabaseManagerForHikariCP {
 	private static final Logger LOGGER = LogManager.getLogger(DatabaseManagerForHikariCP.class);
 	private static final int MAXIMUM_POOL_SIZE = Integer.parseInt(ConfigManager.getProperty("MAXIMUM_POOL_SIZE"));
@@ -35,6 +37,7 @@ public class DatabaseManagerForHikariCP {
 	private static final String DB_PASSWORD = loadSecret("DB_USER_PASSWORD");
 
 	
+	@Step("Loading Database Secrets")
 	public static String loadSecret(String key) {
 		String value = null;
 		
@@ -62,6 +65,7 @@ public class DatabaseManagerForHikariCP {
 
 	}
 
+	@Step("Initializing the database Connection Pool")
 	private static void initializePool() {
 
 		if (hikariDataSource == null) { // First Check which all the parallel threads will enter
@@ -86,6 +90,7 @@ public class DatabaseManagerForHikariCP {
 		}
 	}
 	
+	@Step("Getting the Database Connection")
 	public static Connection getConnection() throws SQLException {
 		Connection connection = null;
 		if(hikariDataSource==null) {
