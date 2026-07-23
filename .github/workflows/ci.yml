@@ -24,6 +24,9 @@ on:
         default: testng.xml
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -47,28 +50,34 @@ jobs:
     - name: Default values for execution
       id: default
       run: |
-        # Added the $ before GITHUB_OUTPUT and removed potential trailing spaces
         echo "suiteXmlFile=${{ github.event.inputs.suiteXmlFile || 'testng.xml' }}" >> $GITHUB_OUTPUT
         echo "env=${{ github.event.inputs.env || 'qa' }}" >> $GITHUB_OUTPUT
         
     - name: Execute Test Automation Framework
-      # Now these outputs will actually contain values
       run: mvn clean test -DsuiteXmlFile="${{ steps.default.outputs.suiteXmlFile }}" -Denv="${{ steps.default.outputs.env }}"    
 
     - name: Generating Allure Report
       if: always()
       run: mvn allure:report
 
+    - name: Check Allure Report Directory
+      if: always()
+      run: |
+        echo "Checking Allure report directory..."
+        ls -la target/site/allure-maven-plugin || echo "Directory not found"
+
     - name: Creating github page branch
       if: always()
       uses: peaceiris/actions-gh-pages@v4.0.0
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: target/site/allure-maven-plugin  
+          publish_dir: target/site/allure-maven-plugin
+          publish_branch: gh-pages
+          force_orphan: true
    
     - name: Upload a Build Artifact
       if: always()
-      uses: actions/upload-artifact@v4  # Fixed version from v7.0.1 to v4
+      uses: actions/upload-artifact@v4
       with:
         name: SureFire-Report
         path: target/surefire-reports/
