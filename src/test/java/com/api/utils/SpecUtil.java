@@ -1,5 +1,7 @@
 package com.api.utils;
 
+import io.qameta.allure.Step;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -18,17 +20,20 @@ import com.api.request.model.UserCredentials;
 public class SpecUtil { // Method overloading happening
 //static method
 	
+	@Step("Seting up the BaseURI, Content Type as Application/JSON and attaching the SensitivedData Filter")
 	public static RequestSpecification requestSpec() {
 		RequestSpecification requestSpecification = new RequestSpecBuilder()
 				.setBaseUri(getProperty("BASE_URI"))
 				.setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON)
 				.addFilter(new SensitiveDataFilter())
+				.addFilter(new AllureRestAssured())
 				.build();
 		
 	return requestSpecification;
 	}
 	
+	@Step("Seting up the BaseURI, Content Type as Application/JSON and attaching the SensitivedData Filter")
 	public static RequestSpecification requestSpec(Object payload) {
 		RequestSpecification requestSpecification = new RequestSpecBuilder()
 				.setBaseUri(getProperty("BASE_URI"))
@@ -36,11 +41,12 @@ public class SpecUtil { // Method overloading happening
 				.setAccept(ContentType.JSON)
 				.setBody(payload)
 				.addFilter(new SensitiveDataFilter())
+				.addFilter(new AllureRestAssured())
 				.build();
 		
 	return requestSpecification;
 }
-	
+	@Step("Seting up the BaseURI, Content Type as Application/JSON and attaching the SensitivedData Filter for a role")
 	public static RequestSpecification requestSpecWithAuth(Role role) {
 		RequestSpecification requestSpecification = new RequestSpecBuilder()
 				.setBaseUri(getProperty("BASE_URI"))
@@ -48,12 +54,13 @@ public class SpecUtil { // Method overloading happening
 				.setAccept(ContentType.JSON)
 				.addHeader("Authorization", AuthTokenProvider.getToken(role))
 				.addFilter(new SensitiveDataFilter())
+				.addFilter(new AllureRestAssured())
 				.build();
 		
 	return requestSpecification;
 	}
 	
-	
+	@Step("Seting up the BaseURI, Content Type as Application/JSON and attaching the SensitivedData Filter for a role and attaching payload")
 	public static RequestSpecification requestSpecWithAuth(Role role, Object Payload) {
 		RequestSpecification requestSpecification = new RequestSpecBuilder()
 				.setBaseUri(getProperty("BASE_URI"))
@@ -61,12 +68,13 @@ public class SpecUtil { // Method overloading happening
 				.setAccept(ContentType.JSON)
 				.addHeader("Authorization", AuthTokenProvider.getToken(role))
 				.addFilter(new SensitiveDataFilter())
+				.addFilter(new AllureRestAssured())
 				.build();
 		
 	return requestSpecification;
 	}
 	
-	
+	@Step("Expecting the response to have Content Type as Application/JSON, Status 200 and Response Time Less than 1000ms")
 	public static ResponseSpecification responseSpec_OK() {
 		ResponseSpecification responseSpecification = new ResponseSpecBuilder()
 		.expectContentType(ContentType.JSON)
@@ -77,6 +85,7 @@ public class SpecUtil { // Method overloading happening
 		return responseSpecification;
 	}
 	
+	@Step("Expecting the response to have Content Type as Application/JSON and Response Time Less than 1000ms and status code")
 	public static ResponseSpecification responseSpec_JSON(int statusCode) {
 		ResponseSpecification responseSpecification = new ResponseSpecBuilder()
 		.expectContentType(ContentType.JSON)
@@ -87,6 +96,7 @@ public class SpecUtil { // Method overloading happening
 		return responseSpecification;
 	}
 	
+	@Step("Expecting the response to have Content Type as Text and Response Time Less than 1000ms and status code")
 	public static ResponseSpecification responseSpec_TEXT(int statusCode) {
 		ResponseSpecification responseSpecification = new ResponseSpecBuilder()
 		.expectStatusCode(statusCode)

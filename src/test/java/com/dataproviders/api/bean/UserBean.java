@@ -38,7 +38,7 @@ public class UserBean {
 
 	@Override
 	public String toString() {
-		return "UserBean [username=" + username + ", password=" + password + "]";
+		return "UserBean [username=" + username + ", password= ********" + "]";
 	}
 
 }

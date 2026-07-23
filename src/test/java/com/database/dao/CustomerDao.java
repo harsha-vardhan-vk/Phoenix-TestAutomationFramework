@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import com.database.DatabaseManagerForHikariCP;
 import com.database.model.CustomerDBModel;
 
+import io.qameta.allure.Step;
+
 public class CustomerDao {
 
 	private static final Logger LOGGER = LogManager.getLogger(CustomerDao.class);
@@ -21,6 +23,7 @@ public class CustomerDao {
     private CustomerDao() {
     	
     }
+    @Step("Retriving the Customer information from DB for the specific customer id")
     public static CustomerDBModel getCustomerInfo(int customerId) {
         CustomerDBModel customerDBModel = null;
         try {
