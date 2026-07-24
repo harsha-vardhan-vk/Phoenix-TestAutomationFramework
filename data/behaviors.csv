@@ -1,0 +1,7 @@
+"Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
+"Job Management","Master API","","0","0","1","0","0"
+"User Management","User Details","userDetails should be shown","0","0","1","0","0"
+"Job Management","Job Count","","0","0","1","0","0"
+"Job Management","Job Details","Job Details is shown correctly for FD","1","0","0","0","0"
+"Job Management","Job Count","Job Count Data is shown correctly","1","0","0","0","0"
+"User Management","Authentication","Valid User Should be able to login into the System","1","0","0","0","0"
